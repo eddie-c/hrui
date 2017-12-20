@@ -4,12 +4,11 @@ import static org.testng.Assert.*;
 
 import base.pages.HomePage;
 import base.pages.LoginPage;
-import comments.GlobalVars;
+import common.GlobalVars;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.*;
-import sun.rmi.runtime.Log;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,7 +28,7 @@ public class LoginYCTest {
 
     @Test
     public void testlogin(){
-        loginpage.Login_Action("xn999","123123");
+        loginpage.Login_Action(GlobalVars.LoginUsername,GlobalVars.LoginPassword);
         assertEquals(homepage.getName(),"开发测试号");
     }
 
