@@ -6,12 +6,19 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
 public class CreateLegalPersonPage {
+
+    @FindBy(how = How.CLASS_NAME,using="page--title")
+    WebElement pageTitle;
+
     //营业执照生效日期输入框
     @FindBy(how= How.XPATH,using="//*[@for=\"yyzz_valid_date\"]/..//input")
     WebElement yyzzValidate;
@@ -92,6 +99,10 @@ public class CreateLegalPersonPage {
         result.put("jyxkzLegalPersonNameTxt",jyxkzLegalPersonNameTxt);
 
         saveButton.click();
+        //在点击新建以后，等待详情页面加载完毕，否则，在删除用例的时候，导致“是否保存所做更改”的弹窗出现
+        new WebDriverWait(driver, 30).until(
+                ExpectedConditions.textToBePresentInElement(pageTitle,yyzzLegalPersonNameTxt));
+
         return result;
     }
 
