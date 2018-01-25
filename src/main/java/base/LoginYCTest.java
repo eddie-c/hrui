@@ -22,6 +22,7 @@ public class LoginYCTest {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get(GlobalVars.YC_LOGIN_URL);
+        driver.manage().window().maximize();
         loginpage = PageFactory.initElements(driver,LoginPage.class);
         homepage = PageFactory.initElements(driver,HomePage.class);
     }

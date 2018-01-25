@@ -18,16 +18,16 @@ public class OrgManagePage {
         this.driver = driver;
     }
 
-    @FindBy(how= How.CLASS_NAME,using="icon--add")
+    @FindBy(how= How.CLASS_NAME,using="el-icon-plus")
     public WebElement btnCreateOrg;
 
-    @FindBy(how= How.CLASS_NAME,using="icon--import")
+    @FindBy(how= How.CLASS_NAME,using="el-icon-download")
     public WebElement btnImportOrg;
 
-    @FindBy(how= How.CLASS_NAME,using = "icon--export")
+    @FindBy(how= How.CLASS_NAME,using = "el-icon-upload2")
     public WebElement btnExportOrg;
 
-    @FindBy(how= How.CLASS_NAME,using = "el-icon-delete2")
+    @FindBy(how= How.CLASS_NAME,using = "el-icon-delete")
     public WebElement btnDeleteOrg;
 
     @FindBy(how= How.CLASS_NAME,using="el-loading-mask")

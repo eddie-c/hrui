@@ -8,6 +8,7 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+
 public class CreateOrgPage {
 
     private final WebDriver driver;
@@ -50,6 +51,11 @@ public class CreateOrgPage {
                 ExpectedConditions.visibilityOf(orgAutoMenu));
 
         orgAutoMenu.click();
+//        Tools.sleep(1);
+        new WebDriverWait(this.driver,10).until(
+                ExpectedConditions.elementToBeClickable(orgSaveButton)
+        );
+
         orgSaveButton.click();
         msgBoxConfirm.click();
         return orgNameText;

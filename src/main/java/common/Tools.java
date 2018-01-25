@@ -4,6 +4,9 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Tools {
 
@@ -62,6 +65,18 @@ public class Tools {
             return false;
         }
         return true;
+    }
+
+    public static String getValidateDate(){
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+        String out = sdf.format(new Date().getTime());
+        return out;
+    }
+
+    public static void main(String[] args) {
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+        String out = sdf.format(new Date().getTime());
+        System.out.println(out);
     }
 }
 

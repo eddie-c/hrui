@@ -23,13 +23,13 @@ public class LegalPersonMainPage {
         this.driver = driver;
     }
     //新建按钮
-    @FindBy(how= How.XPATH,using="//*[@class=\"operation\"]//span[contains(text(),\"新建\")]")
+    @FindBy(how= How.XPATH,using="//*[contains(@class,\"operation\")]//span[contains(text(),\"新建\")]")
     WebElement createBtn;
     //导出按钮
-    @FindBy(how= How.XPATH,using="//*[@class=\"operation\"]//span[contains(text(),\"导出\")]")
+    @FindBy(how= How.XPATH,using="//*[contains(@class,\"operation\")]//span[contains(text(),\"导出\")]")
     WebElement exportBtn;
     //删除按钮
-    @FindBy(how= How.XPATH,using="//*[@class=\"operation\"]//span[contains(text(),\"删除\")]")
+    @FindBy(how= How.XPATH,using="//*[contains(@class,\"operation\")]//span[contains(text(),\"删除\")]")
     WebElement deleteBtn;
     @FindBy(how=How.XPATH,using="//i[@class=\"el-icon-search\"]")
     WebElement searchBtn;
@@ -38,7 +38,7 @@ public class LegalPersonMainPage {
     @FindBy(how = How.XPATH,using="//table[@class=\"el-table__header\"]//th[1]")
     WebElement selectAllCheckBox;
     //搜索输入框
-    @FindBy(how=How.XPATH,using="//*[@class=\"search\"]//input")
+    @FindBy(how=How.XPATH,using="//*[contains(@class,\"search\")]//input")
     WebElement searchInputBox;
 
     @FindBy(how= How.CLASS_NAME,using="el-loading-mask")
