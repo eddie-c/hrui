@@ -1,22 +1,21 @@
-package base;
+package test.org;
 
-import base.pages.CommonPage;
-import base.pages.HomePage;
-import base.pages.LoginPage;
+import base.pages.*;
 import base.pages.ognization.CreateOrgPage;
-import base.pages.ognization.OrgMergePage;
+import base.pages.ognization.OrgDetailPage;
+import base.pages.ognization.OrgManagePage;
 import common.GlobalVars;
-import common.Tools;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
-public class OrgMergeTest {
+public class CreateOrgTest {
     private WebDriver driver;
 
     @BeforeMethod
@@ -34,20 +33,17 @@ public class OrgMergeTest {
     }
 
     @Test
-    public void testMerge(){
-        //进入新建页面创建一个组织
-        CommonPage.gotoPage(driver,GlobalVars.YC_ORG_CREATE_URL);
+    public void testCreate(){
+        driver.get(GlobalVars.YC_HR_ORG_MANAGE_PAGE_URL);
+        OrgManagePage orgManagePage = PageFactory.initElements(driver,OrgManagePage.class);
+        orgManagePage.gotoCreatePage();
         CreateOrgPage orgCreatePage = PageFactory.initElements(driver,CreateOrgPage.class);
-        String orgNameMergeFrom = orgCreatePage.createorg();
-        Tools.sleep(1);
-        //创建第二个组织
-        CommonPage.gotoPage(driver,GlobalVars.YC_ORG_CREATE_URL);
-        String orgNameMergeTo = orgCreatePage.createorg();
-        Tools.sleep(1);
-        //进入合并页面，合并上面创建的组织
-        CommonPage.gotoPage(driver,GlobalVars.YC_ORG_MERGE_URL);
-        OrgMergePage om = PageFactory.initElements(driver,OrgMergePage.class);
-        om.merge(orgNameMergeFrom,orgNameMergeTo);
+        String newOrgName = orgCreatePage.createorg();
+        OrgDetailPage orgDetailPage = PageFactory.initElements(driver,OrgDetailPage.class);
+//        Assert.assertEquals(newOrgName,orgDetailPage.getTitle());
+        System.out.println(orgDetailPage.getTitle());
+        Assert.assertTrue(orgDetailPage.getTitle().contains(newOrgName));
+//        orgCreatePage.createorg();
     }
 
     @AfterMethod

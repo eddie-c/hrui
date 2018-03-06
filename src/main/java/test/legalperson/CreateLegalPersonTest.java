@@ -1,21 +1,24 @@
-package base;
+package test.legalperson;
 
-import base.pages.CommonPage;
+import base.pages.legalperson.CreateLegalPersonPage;
 import base.pages.HomePage;
-import base.pages.LoginPage;
+import base.pages.legalperson.LegalPersonDetailPage;
 import base.pages.legalperson.LegalPersonMainPage;
+import base.pages.LoginPage;
 import base.pages.ognization.OgnizationMainPage;
 import common.GlobalVars;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-public class LegalPersonSearch {
+public class CreateLegalPersonTest {
     private WebDriver driver;
 
     @BeforeMethod
@@ -29,36 +32,31 @@ public class LegalPersonSearch {
         HomePage homepage = PageFactory.initElements(driver, HomePage.class);
         homepage.gotoHrNavigation();
         homepage.gotoHrModule();
-        PageFactory.initElements(driver, CommonPage.class);
     }
 
-    /*
-    * 搜索：全字匹配，只搜索出一个结果
-    * */
     @Test
-    public void testSearch01(){
+    public void testCreateLegalPerson(){
         OgnizationMainPage ognizationMainPage = PageFactory.initElements(driver,OgnizationMainPage.class);
         //进入法人单位页面
         ognizationMainPage.gotoLegalPersonPage();
         LegalPersonMainPage lpmp = PageFactory.initElements(driver, LegalPersonMainPage.class);
-        lpmp.search(" SEARCH专用01");
-        Assert.assertEquals(lpmp.getSearchResultCount(),1);
+        //进入新建页面
+        lpmp.gotoCreatePage();
+        CreateLegalPersonPage clpp = PageFactory.initElements(driver,CreateLegalPersonPage.class);
+//        HashMap<String,String> createPageInfo = new HashMap<String, String>();
+//        HashMap<String,String> detailPageInfo = new HashMap<String, String>();
+        //新建法人单位，获取创建参数
+        HashMap<String,String> createPageInfo = clpp.createLegalPerson();
+        LegalPersonDetailPage lpdp = PageFactory.initElements(driver,LegalPersonDetailPage.class);
+        //获取详情页面参数
+        HashMap<String,String> detailPageInfo = lpdp.getElementsTxt();
+        /*
+        * 一系列比较
+        * */
+        Assert.assertEquals(createPageInfo.get("yyzzValidateTxt"),detailPageInfo.get("yyzzValidateTxt"));
     }
 
-    /*
-     * 搜索：部分匹配，搜索出两个结果
-     * */
-    @Test
-    public void testSearch02(){
-        OgnizationMainPage ognizationMainPage = PageFactory.initElements(driver,OgnizationMainPage.class);
-        //进入法人单位页面
-        ognizationMainPage.gotoLegalPersonPage();
-        LegalPersonMainPage lpmp = PageFactory.initElements(driver, LegalPersonMainPage.class);
-        lpmp.search(" SEARCH专用");
-        Assert.assertEquals(lpmp.getSearchResultCount(),2);
-    }
-
-
+    @AfterMethod
     public void tearDown(){
 //        driver.quit();
     }

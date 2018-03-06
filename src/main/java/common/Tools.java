@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class Tools {
 
@@ -68,13 +69,18 @@ public class Tools {
     }
 
     public static String getValidateDate(){
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
         String out = sdf.format(new Date().getTime());
         return out;
     }
 
+
+    public static String arrayChoice(String[] array){
+         return array[new Random().nextInt(array.length-1)];
+    }
+
     public static void main(String[] args) {
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
         String out = sdf.format(new Date().getTime());
         System.out.println(out);
     }

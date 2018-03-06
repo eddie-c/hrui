@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<workflows>
+    <tmpcard>
+        <applysheet>
+            <reason>新人入职申领</reason>
+        </applysheet>
+        <applysheet>
+            <reason>实习生临时申领</reason>
+            <element>
+                <name>预计归还时间</name>
+                <varName>lsgpsqReturnDate</varName>
+            </element>
+            <element>
+                <name>实际使用人</name>
+                <varName>lsgpsqUserName</varName>
+            </element>
+        </applysheet>
+        <applysheet>
+            <reason>新人入职申领</reason>
+        </applysheet>
+    </tmpcard>
+</workflows>

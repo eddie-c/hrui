@@ -1,4 +1,4 @@
-package base;
+package test.org;
 
 import base.pages.CommonPage;
 import base.pages.HomePage;
@@ -45,7 +45,7 @@ public class OrgSplitTest {
         CommonPage.gotoPage(driver,GlobalVars.YC_ORG_CREATE_URL);
         String orgNameSplitTo = orgCreatePage.createorg();
         Tools.sleep(1);
-        //进入合并页面，合并上面创建的组织
+        //进入拆分页面，拆分上面创建的组织
         CommonPage.gotoPage(driver,GlobalVars.YC_ORG_SPLIT_URL);
         OrgSplitPage osp = PageFactory.initElements(driver,OrgSplitPage.class);
         osp.split(orgNameSplitFrom,orgNameSplitTo);

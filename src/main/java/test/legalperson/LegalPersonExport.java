@@ -1,4 +1,4 @@
-package base;
+package test.legalperson;
 
 import base.pages.CommonPage;
 import base.pages.HomePage;

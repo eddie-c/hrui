@@ -34,11 +34,16 @@ public class OrgManagePage {
     private WebElement loaingMask;
 
     public void gotoCreatePage() {
-        Tools.sleep(1);
         new WebDriverWait(this.driver, 30).until(
                 ExpectedConditions.invisibilityOf(loaingMask));
 //                ExpectedConditions.elementToBeClickable(btnCreateOrg));
         btnCreateOrg.click();
+    }
+
+    public void gotoImportPage(){
+        new WebDriverWait(this.driver, 30).until(
+                ExpectedConditions.invisibilityOf(loaingMask));
+        btnImportOrg.click();
     }
 
 }

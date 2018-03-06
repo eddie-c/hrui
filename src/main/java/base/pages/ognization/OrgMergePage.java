@@ -14,7 +14,7 @@ import java.util.List;
 public class OrgMergePage {
     private final WebDriver driver;
 
-    @FindBy(how= How.XPATH,using = "//div[contains(@class,\"el-input-name\")]/input")
+    @FindBy(how= How.XPATH,using = "//input[contains(@placeholder,\"方案名称\")]")
     private WebElement mergeName;
 
     @FindBy(how=How.XPATH,using = "//div[contains(@class,\"el-date-editor\")]/input")

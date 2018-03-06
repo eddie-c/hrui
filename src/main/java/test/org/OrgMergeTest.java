@@ -1,30 +1,28 @@
-package base;
+package test.org;
 
 import base.pages.CommonPage;
 import base.pages.HomePage;
 import base.pages.LoginPage;
-import base.pages.legalperson.CreateLegalPersonPage;
-import base.pages.legalperson.LegalPersonDetailPage;
-import base.pages.legalperson.LegalPersonMainPage;
-import base.pages.ognization.OgnizationMainPage;
+import base.pages.ognization.CreateOrgPage;
+import base.pages.ognization.OrgMergePage;
 import common.GlobalVars;
 import common.Tools;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-public class LegalPersonDelete {
+public class OrgMergeTest {
     private WebDriver driver;
 
     @BeforeMethod
     public void setUp(){
         driver = new ChromeDriver();
+        driver.manage().window().maximize();
         driver.get(GlobalVars.YC_LOGIN_URL);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get(GlobalVars.YC_LOGIN_URL);
@@ -33,24 +31,27 @@ public class LegalPersonDelete {
         HomePage homepage = PageFactory.initElements(driver, HomePage.class);
         homepage.gotoHrNavigation();
         homepage.gotoHrModule();
-        PageFactory.initElements(driver, CommonPage.class);
     }
 
     @Test
-    public void deleteLegalPersonTest(){
-        OgnizationMainPage omp =  PageFactory.initElements(driver,OgnizationMainPage.class);
-        omp.gotoLegalPersonPage();
-        LegalPersonMainPage lpmp = PageFactory.initElements(driver,LegalPersonMainPage.class);
-        lpmp.gotoCreatePage();
-        CreateLegalPersonPage clpp = PageFactory.initElements(driver,CreateLegalPersonPage.class);
-        HashMap<String,String> result = clpp.createLegalPerson();
-        String legalPersonName = result.get("yyzzLegalPersonName");
-        lpmp.deleteLegalPersonByName(legalPersonName);
-        lpmp.search(legalPersonName);
+    public void testMerge(){
+        //进入新建页面创建一个组织
+        CommonPage.gotoPage(driver,GlobalVars.YC_ORG_CREATE_URL);
+        CreateOrgPage orgCreatePage = PageFactory.initElements(driver,CreateOrgPage.class);
+        String orgNameMergeFrom = orgCreatePage.createorg();
         Tools.sleep(1);
-        Assert.assertEquals(lpmp.getSearchResultCount(),0);
+        //创建第二个组织
+        CommonPage.gotoPage(driver,GlobalVars.YC_ORG_CREATE_URL);
+        String orgNameMergeTo = orgCreatePage.createorg();
+        Tools.sleep(1);
+        //进入合并页面，合并上面创建的组织
+        CommonPage.gotoPage(driver,GlobalVars.YC_ORG_MERGE_URL);
+        OrgMergePage om = PageFactory.initElements(driver,OrgMergePage.class);
+        om.merge(orgNameMergeFrom,orgNameMergeTo);
     }
+
+    @AfterMethod
     public void tearDown(){
-        //
+
     }
 }
