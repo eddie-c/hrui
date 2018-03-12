@@ -1,5 +1,6 @@
 package base.pages.ognization;
 
+import common.SeleniumOp;
 import common.Tools;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -34,16 +35,19 @@ public class OrgManagePage {
     private WebElement loaingMask;
 
     public void gotoCreatePage() {
-        new WebDriverWait(this.driver, 30).until(
-                ExpectedConditions.invisibilityOf(loaingMask));
-//                ExpectedConditions.elementToBeClickable(btnCreateOrg));
-        btnCreateOrg.click();
+
+        SeleniumOp.clickElement(driver,btnCreateOrg);
+//        new WebDriverWait(this.driver, 30).until(
+//                ExpectedConditions.invisibilityOf(loaingMask));
+////                ExpectedConditions.elementToBeClickable(btnCreateOrg));
+//        btnCreateOrg.click();
     }
 
     public void gotoImportPage(){
-        new WebDriverWait(this.driver, 30).until(
-                ExpectedConditions.invisibilityOf(loaingMask));
-        btnImportOrg.click();
+        SeleniumOp.clickElement(driver,btnImportOrg);
+//        new WebDriverWait(this.driver, 30).until(
+//                ExpectedConditions.invisibilityOf(loaingMask));
+//        btnImportOrg.click();
     }
 
 }

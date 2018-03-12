@@ -3,10 +3,7 @@ package base.page.jobPosition;
 import base.pages.CommonPage;
 import common.GlobalVars;
 import common.Tools;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
@@ -40,12 +37,15 @@ public class JobMaintainPage{
     @FindBy(how = How.XPATH,using="//div[contains(@class,\"el-table__header-wrapper\")]/table//th[1]")
     WebElement selectAllCheckBox;
 
-    @FindBy(how=How.XPATH,using="//div[contains(@class,\"el-table__body-wrapper\")]//tr)")
+    @FindBy(how=How.XPATH,using="//div[contains(@class,\"el-table__body-wrapper\")]//tr")
     private List<WebElement> searchResults;
 
     //    @FindBy(how = How.XPATH,using="//table[@class=\"el-table__body\"]//tr//input[@type=\"checkbox\"]")
     @FindBy(how = How.XPATH,using="//div[contains(@class,\"el-table__body-wrapper\")]/table//tr//label[@class=\"el-checkbox\"]")
     private List<WebElement> resultCheckboxs;
+
+    @FindBy(how = How.XPATH,using="//div[contains(@class,\"el-table__body-wrapper\")]//i[@class=\"el-icon-edit\"]")
+    private List<WebElement> resultEditButtons;
 
     //搜索输入框
     @FindBy(how=How.XPATH,using="//*[contains(@class,\"search\")]//input")
@@ -61,7 +61,7 @@ public class JobMaintainPage{
 
     public HashMap<String,String> getFirstRowInfo(){
         WebElement firstrow = searchResults.get(0);
-//        firstrow.findElement()
+
         HashMap<String,String> result = new HashMap<String, String>();
         List<String> rowinfoParams = Arrays.asList(
                 "code", "name", "type", "level"
@@ -84,6 +84,14 @@ public class JobMaintainPage{
             }
         }
     }
+
+    public void gotoEditPage(){
+        CommonPage.waitingForLoaing(driver);
+        JavascriptExecutor executor = (JavascriptExecutor)driver;
+        executor.executeScript("arguments[0].click();", resultEditButtons.get(0));
+    }
+
+
 
     public void downloadAll(){
         CommonPage.downloadAll(driver);

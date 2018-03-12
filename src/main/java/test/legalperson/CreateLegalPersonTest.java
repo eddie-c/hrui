@@ -1,5 +1,6 @@
 package test.legalperson;
 
+import base.pages.CommonPage;
 import base.pages.legalperson.CreateLegalPersonPage;
 import base.pages.HomePage;
 import base.pages.legalperson.LegalPersonDetailPage;
@@ -36,6 +37,7 @@ public class CreateLegalPersonTest {
 
     @Test
     public void testCreateLegalPerson(){
+        PageFactory.initElements(driver,CommonPage.class);
         OgnizationMainPage ognizationMainPage = PageFactory.initElements(driver,OgnizationMainPage.class);
         //进入法人单位页面
         ognizationMainPage.gotoLegalPersonPage();

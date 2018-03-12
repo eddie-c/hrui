@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Random;
 
 public class CreatePositionPage {
-    @FindBy(how = How.CLASS_NAME,using="page--title")
-    WebElement pageTitle;
 
     @FindBy(how=How.XPATH,using="//div[contains(@autotest,\"edit-jobName\")]/input")
     WebElement positionName;

@@ -4,9 +4,11 @@ import base.pages.CommonPage;
 import base.pages.ognization.OgnizationMainPage;
 import common.GlobalVars;
 import common.Tools;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -15,6 +17,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.xml.xpath.XPath;
+import java.util.HashMap;
 import java.util.List;
 
 public class LegalPersonMainPage {
@@ -34,9 +37,6 @@ public class LegalPersonMainPage {
     @FindBy(how=How.XPATH,using="//i[@class=\"el-icon-search\"]")
     WebElement searchBtn;
 
-    //列表全选框
-    @FindBy(how = How.XPATH,using="//table[@class=\"el-table__header\"]//th[1]")
-    WebElement selectAllCheckBox;
     //搜索输入框
     @FindBy(how=How.XPATH,using="//*[contains(@class,\"search\")]//input")
     WebElement searchInputBox;
@@ -44,20 +44,24 @@ public class LegalPersonMainPage {
     @FindBy(how= How.CLASS_NAME,using="el-loading-mask")
     private WebElement loaingMask;
 
-    @FindBy(how= How.XPATH,using="//table[@class=\"el-table__body\"]//tr")
+
+    //列表全选框
+    @FindBy(how = How.XPATH,using="//div[contains(@class,\"el-table__header-wrapper\")]/table//th[1]")
+    WebElement selectAllCheckBox;
+
+    @FindBy(how=How.XPATH,using="//div[contains(@class,\"el-table__body-wrapper\")]//tr")
     private List<WebElement> searchResults;
 
-//    @FindBy(how = How.XPATH,using="//table[@class=\"el-table__body\"]//tr//input[@type=\"checkbox\"]")
-    @FindBy(how = How.XPATH,using="//table[@class=\"el-table__body\"]//tr//label[@class=\"el-checkbox\"]")
+    @FindBy(how = How.XPATH,using="//div[contains(@class,\"el-table__body-wrapper\")]/table//tr//label[@class=\"el-checkbox\"]")
     private List<WebElement> resultCheckboxs;
 
+    @FindBy(how = How.XPATH,using="//div[contains(@class,\"el-table__body-wrapper\")]//i[@class=\"el-icon-edit\"]")
+    private List<WebElement> resultEditButtons;
+
+
+
     public void gotoCreatePage(){
-//        Tools.sleep(1);
-//        new WebDriverWait(this.driver, 30).until(
-//                ExpectedConditions.invisibilityOf(loaingMask));
-////                ExpectedConditions.elementToBeClickable(btnCreateOrg));
-        CommonPage.waitingForLoaing(driver);
-        createBtn.click();
+        CommonPage.gotoCreatePage(driver);
     }
 
     public void downloadAll(){
@@ -85,9 +89,34 @@ public class LegalPersonMainPage {
         searchBtn.click();
     }
 
+    public void gotoEditPage(){
+
+        CommonPage.waitingForLoaing(driver);
+        JavascriptExecutor executor = (JavascriptExecutor)driver;
+        executor.executeScript("arguments[0].click();", resultEditButtons.get(0));
+    }
+
+    /*
+    * 进入列表页面的第一条记录的详情页面
+     */
+    public void gotoDetailPage(){
+        searchResults.get(0);
+    }
+
+    public HashMap<String, String> getDetailPageInfo(String name){
+        search(name);
+        WebElement elem = searchResults.get(0);
+        Actions ac = new Actions(driver);
+        ac.doubleClick(elem).perform();
+        LegalPersonDetailPage lpdp = PageFactory.initElements(driver,LegalPersonDetailPage.class);
+        HashMap<String,String> result =  lpdp.getElementsTxt();
+        return result;
+    }
+
     public int getSearchResultCount(){
         return searchResults.size();
     }
+
 
 
     public void deleteLegalPersonByName(String name){

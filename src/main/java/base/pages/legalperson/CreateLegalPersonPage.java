@@ -1,5 +1,7 @@
 package base.pages.legalperson;
 
+import base.pages.CommonPage;
+import common.SeleniumOp;
 import common.Tools;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -16,8 +18,12 @@ import java.util.HashMap;
 
 public class CreateLegalPersonPage {
 
-    @FindBy(how = How.CLASS_NAME,using="page--title")
+    @FindBy(how= How.XPATH,using="(//div[contains(@aria-label,\"Breadcrumb\")]//span[@class='el-breadcrumb__inner'])[last()]")
     WebElement pageTitle;
+
+    @FindBy(how= How.XPATH,using="(//div[contains(@aria-label,\"Breadcrumb\")]//span[@class='el-breadcrumb__inner'])[last()-1]")
+    WebElement parentPageEntryButton;
+
 
     //营业执照生效日期输入框
     @FindBy(how= How.XPATH,using="//*[@for=\"yyzz_valid_date\"]/..//input")
@@ -55,6 +61,62 @@ public class CreateLegalPersonPage {
         this.driver = driver;
     }
 
+
+    public HashMap<String,String> editLegalPerson(){
+        String editSuffix = "_edit";
+        Tools.sleep(1);
+        HashMap<String,String> result = new HashMap<String, String>();
+
+
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+
+
+        String yyzzCreditCodeTxt = (String)jse.executeScript("return arguments[0].value",yyzzCreditCode);
+
+        String yyzzLegalPersonNameTxt = (String)jse.executeScript("return arguments[0].value",yyzzLegalPersonName);
+
+//        Tools.sleep(1);
+        String edityyzzLegalPersonNameTxt =  yyzzLegalPersonNameTxt+editSuffix;
+        String edityyzzCreditCodeTxt = yyzzCreditCodeTxt+editSuffix;
+        System.out.println(edityyzzLegalPersonNameTxt);
+        System.out.println(edityyzzCreditCodeTxt);
+
+        yyzzCreditCode.clear();
+        yyzzCreditCode.sendKeys(edityyzzCreditCodeTxt);
+
+        yyzzLegalPersonName.clear();
+        yyzzLegalPersonName.sendKeys(edityyzzLegalPersonNameTxt);
+
+
+        result.put("yyzzCreditCode",edityyzzCreditCodeTxt);
+        result.put("yyzzLegalPersonName",edityyzzLegalPersonNameTxt);
+        Tools.sleep(1);
+        saveButton.click();
+
+        //在点击新建以后，等待详情页面加载完毕，否则，在删除用例的时候，导致“是否保存所做更改”的弹窗出现
+        new WebDriverWait(driver, 30).until(
+                ExpectedConditions.textToBePresentInElement(pageTitle,yyzzLegalPersonNameTxt));
+
+        //点击页顶面包屑，回到列表页面
+        parentPageEntryButton.click();
+        CommonPage.waitingForLoaing(driver);
+        Tools.sleep(1);
+        return result;
+    }
+
+    public HashMap<String,String> createLegalPersonAndGotoListPage(){
+        HashMap<String,String> result =  createLegalPerson();
+        //在点击新建以后，等待详情页面加载完毕，否则，在删除用例的时候，导致“是否保存所做更改”的弹窗出现
+        new WebDriverWait(driver, 30).until(
+                ExpectedConditions.textToBePresentInElement(pageTitle,result.get("yyzzLegalPersonNameTxt")));
+
+        //点击页顶面包屑，回到列表页面
+        parentPageEntryButton.click();
+        CommonPage.waitingForLoaing(driver);
+        Tools.sleep(1);
+        return result;
+    }
+
     public HashMap<String,String> createLegalPerson(){
         /*
         *初始化输入内容
@@ -87,7 +149,7 @@ public class CreateLegalPersonPage {
         result.put("yyzzCreditCodeTxt",yyzzCreditCodeTxt);
 
         String yyzzLegalPersonNameTxt = (String)jse.executeScript("return arguments[0].value",yyzzLegalPersonName);
-        result.put("yyzzLegalPersonName",yyzzLegalPersonNameTxt);
+        result.put("yyzzLegalPersonNameTxt",yyzzLegalPersonNameTxt);
 
         String jyxkzValidateTxt = (String)jse.executeScript("return arguments[0].value",jyxkzValidate);
         result.put("jyxkzValidateTxt",jyxkzValidateTxt);
@@ -99,9 +161,7 @@ public class CreateLegalPersonPage {
         result.put("jyxkzLegalPersonNameTxt",jyxkzLegalPersonNameTxt);
 
         saveButton.click();
-        //在点击新建以后，等待详情页面加载完毕，否则，在删除用例的时候，导致“是否保存所做更改”的弹窗出现
-        new WebDriverWait(driver, 30).until(
-                ExpectedConditions.textToBePresentInElement(pageTitle,yyzzLegalPersonNameTxt));
+
 
         return result;
     }

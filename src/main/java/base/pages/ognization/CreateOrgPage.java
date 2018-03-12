@@ -1,5 +1,6 @@
 package base.pages.ognization;
 
+import common.SeleniumOp;
 import common.Tools;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,6 +8,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.List;
 
 
 public class CreateOrgPage {
@@ -24,6 +27,13 @@ public class CreateOrgPage {
 //    WebElement topLevelOrg;
     @FindBy(how = How.XPATH,using="//li[contains(text(),\"国信证券泰九分公司\")]")
     WebElement topLevelOrg;
+
+    //所属条线
+    @FindBy(how = How.XPATH,using="//label[@for='line']/following-sibling::div//input")
+    WebElement line;
+
+    @FindBy(how = How.XPATH, using = "(//ul[contains(@class,\"el-scrollbar__view\")])[last()]//span")
+    List<WebElement> lineDropdownItems;
 
     @FindBy(how = How.XPATH,using="//li[contains(@class,\"el-cascader-menu__item\") and contains(text(),\"自动化专用\")]")
     WebElement orgAutoMenu;
@@ -51,10 +61,21 @@ public class CreateOrgPage {
                 ExpectedConditions.visibilityOf(orgAutoMenu));
 
         orgAutoMenu.click();
-//        Tools.sleep(1);
+
+        SeleniumOp.clickBlank(driver);
+
+        new WebDriverWait(this.driver,10).until(
+                ExpectedConditions.elementToBeClickable(line)
+        );
+
+
+        line.click();
+        SeleniumOp.clickElement(driver,lineDropdownItems.get(0));
+
         new WebDriverWait(this.driver,10).until(
                 ExpectedConditions.elementToBeClickable(orgSaveButton)
         );
+
 
         orgSaveButton.click();
         msgBoxConfirm.click();

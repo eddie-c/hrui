@@ -1,5 +1,6 @@
 package base.pages;
 
+import com.alics.core.pattern.Exp;
 import common.Tools;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -18,9 +19,9 @@ import java.util.List;
 * 对某些特别的控件，模拟出的页面
 * */
 public class CommonPage {
-    //页面标题
-    @FindBy(how = How.CLASS_NAME,using="page--title")
-    WebElement pageTitle;
+    //面包屑的最后一个选项
+    @FindBy(how = How.CLASS_NAME,using="(//div[contains(@aria-label,\"Breadcrumb\")]//span[@class='el-breadcrumb__inner'])[last()]")
+    public static WebElement pageTitle;
 
     @FindBy(how= How.CLASS_NAME,using="el-icon-plus")
     static WebElement createBtn;
@@ -59,10 +60,12 @@ public class CommonPage {
     public static void waitingForLoaing(WebDriver driver){
         try{
             if (loaingMask != null){
-                new WebDriverWait(driver, 30).until(
+                new WebDriverWait(driver, 5).until(
                         ExpectedConditions.invisibilityOf(loaingMask));
             }
-        }catch(Exception e){}
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @FindBy(how = How.XPATH,using="//span[contains(text(),\"确定\")]")
@@ -82,6 +85,8 @@ public class CommonPage {
     }
 
     public static void gotoCreatePage(WebDriver driver){
+        Tools.sleep(1);
+        new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(createBtn));
         new WebDriverWait(driver, 30).until(
                 ExpectedConditions.invisibilityOf(loaingMask));
         createBtn.click();
@@ -135,6 +140,10 @@ public class CommonPage {
         searchInputBox.sendKeys(searchTxt);
         searchInputBox.sendKeys(Keys.ENTER);
         searchBtn.click();
+    }
+
+    public static String getPageTitle(WebDriver driver){
+        return pageTitle.getText();
     }
 
     public static void confirm(){
