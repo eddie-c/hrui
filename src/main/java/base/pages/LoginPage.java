@@ -23,15 +23,25 @@ public class LoginPage {
     @FindBy(how=How.CLASS_NAME,using="sumbit")
     public WebElement btn_Login;
 
+    //如果登录成功以后，那么会有userName这个元素，这里用来判断是否登录成功，如果没有则重新登录
+    @FindBy(how=How.CLASS_NAME,using="user")
+    public WebElement userName;
+
     public LoginPage(WebDriver driver){
         this.driver = driver;
     }
 
-    public void Login_Action(String sUserName,String sPassword){
-        tab_userPass.click();
-        txt_username.sendKeys(sUserName);
-        txt_password.sendKeys(sPassword);
-        btn_Login.click();
+    public boolean Login_Action(String sUserName,String sPassword){
+        try {
+            tab_userPass.click();
+            txt_username.sendKeys(sUserName);
+            txt_password.sendKeys(sPassword);
+            btn_Login.click();
+            userName.click();
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 //    private static WebElement element = null;
 //

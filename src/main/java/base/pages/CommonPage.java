@@ -60,7 +60,7 @@ public class CommonPage {
     public static void waitingForLoaing(WebDriver driver){
         try{
             if (loaingMask != null){
-                new WebDriverWait(driver, 5).until(
+                new WebDriverWait(driver, 10).until(
                         ExpectedConditions.invisibilityOf(loaingMask));
             }
         }catch(Exception e){
@@ -149,4 +149,5 @@ public class CommonPage {
     public static void confirm(){
         msgBoxConfirm.click();
     }
+
 }

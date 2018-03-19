@@ -35,6 +35,10 @@ public class GlobalVars {
     public static String YC_HR_HELPER = "http://test.hr.gxtr9.com/web/settings.html#/helper";
 
 
+    //员工管理-调动管理-首页列表页
+    public static String YC_WORKFLOW_TRANSFER_MAIN_URL = "http://test.hr.gxtr9.com/web/employee.html#/transfer/application";
+
+
     //员工管理--员工信息维护页面
     public static String YC_EMPLOYEE_MAINTAIN = "http://test.hr.gxtr9.com/web/employee.html#/maintain";
     //登录名

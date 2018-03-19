@@ -42,7 +42,7 @@ public class LegalPersonDelete {
         lpmp.gotoCreatePage();
         CreateLegalPersonPage clpp = PageFactory.initElements(driver,CreateLegalPersonPage.class);
         HashMap<String,String> result = clpp.createLegalPersonAndGotoListPage();
-        String legalPersonName = result.get("yyzzLegalPersonName");
+        String legalPersonName = result.get("yyzzLegalPersonNameTxt");
         lpmp.deleteLegalPersonByName(legalPersonName);
         lpmp.search(legalPersonName);
         Tools.sleep(1);

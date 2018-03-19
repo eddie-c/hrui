@@ -82,11 +82,12 @@ public class LegalPersonMainPage {
     }
 
     public void search(String searchTxt){
-        CommonPage.waitingForLoaing(driver);
-        searchInputBox.clear();
-        searchInputBox.sendKeys(searchTxt);
-        searchInputBox.sendKeys(Keys.ENTER);
-        searchBtn.click();
+//        CommonPage.waitingForLoaing(driver);
+//        searchInputBox.clear();
+//        searchInputBox.sendKeys(searchTxt);
+//        searchInputBox.sendKeys(Keys.ENTER);
+//        searchBtn.click();
+        CommonPage.search(driver,searchTxt);
     }
 
     public void gotoEditPage(){
@@ -126,12 +127,14 @@ public class LegalPersonMainPage {
         Tools.sleep(1);
         OgnizationMainPage omp = PageFactory.initElements(driver,OgnizationMainPage.class);
         omp.gotoLegalPersonPage();
-        LegalPersonMainPage lpmp = PageFactory.initElements(driver,LegalPersonMainPage.class);
-        lpmp.search(name);
-        resultCheckboxs.get(0).click();
-        deleteBtn.click();
-        //弹出删除确认窗口
-        CommonPage.confirm();
+        CommonPage.search(driver,name);
+//        LegalPersonMainPage lpmp = PageFactory.initElements(driver,LegalPersonMainPage.class);
+//        lpmp.search(name);
+        CommonPage.deleteFirstRecord(driver);
+//        resultCheckboxs.get(0).click();
+//        deleteBtn.click();
+//        //弹出删除确认窗口
+//        CommonPage.confirm();
     }
 
 }

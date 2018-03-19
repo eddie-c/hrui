@@ -39,6 +39,28 @@ public class Driverop {
         PageFactory.initElements(driver, CommonPage.class);
     }
 
+    public static void approveSetup(WebDriver driver,String uid,String passwd){
+        int trytime=0;
+        while(trytime<5) {
+            driver.manage().window().maximize();
+            driver.get(GlobalVars.YC_LOGIN_URL);
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            driver.get(GlobalVars.YC_LOGIN_URL);
+            LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+            boolean loginSuccess = loginPage.Login_Action(uid, passwd);
+            if(!loginSuccess){
+                trytime++;
+                driver.navigate().refresh();
+                continue;
+            }
+            HomePage homepage = PageFactory.initElements(driver, HomePage.class);
+            homepage.gotoHrNavigation();
+            homepage.gotoHrModule();
+            PageFactory.initElements(driver, CommonPage.class);
+            break;
+        }
+    }
+
 
 
 
